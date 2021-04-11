@@ -262,13 +262,32 @@ def invisibility_of_element(element):
     return invisibility_of_element_located(element)
 
 
-def element_to_be_clickable(locator):
+def element_to_be_clickable_located(locator):
     """ An Expectation for checking an element is visible and enabled such that
-    you can click it."""
+    you can click it.
+    
+    locator used to find the element
+    """
     def _predicate(driver):
         element = visibility_of_element_located(locator)(driver)
         if element and element.is_enabled():
             return element
+        else:
+            return False
+
+    return _predicate
+
+
+def element_to_be_clickable(element):
+    """ An Expectation for checking an element is visible and enabled such that
+    you can click it.
+    
+    element is either a locator (text) or an WebElement
+    """
+    def _predicate(driver):
+        target = visibility_of(element)(driver)
+        if target and target.is_enabled():
+            return target
         else:
             return False
 
